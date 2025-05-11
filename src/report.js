@@ -5,10 +5,7 @@
  * @param {{ includeAverage?: boolean }} [options={}]
  * @returns {Array<{ id: number, name: string, average?: number, message?: string }>}
  */
-export function generateStudentReport(
-  studentsList,
-  { includeAverage = true } = {},
-) {
+export function generateStudentReport(studentsList, { includeAverage = true } = {}) {
   const isValidList = Array.isArray(studentsList) && studentsList.length > 0;
 
   if (!isValidList) {
