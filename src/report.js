@@ -1,4 +1,4 @@
-import { calculateAverage } from './utils/average.js';
+import { calculateAverage, determinePassStatus } from './utils/grading.js';
 import { sanitizeName } from './utils/names.js';
 
 /**
@@ -22,12 +22,13 @@ export function generateStudentReport(studentsList, { includeAverage = true } = 
 
     const name = sanitizeName(rawName);
     const average = includeAverage ? calculateAverage(scores, hasExtraCredit) : undefined;
+    const passed = includeAverage ? determinePassStatus(average) : undefined;
 
     reportList.push({
       id,
       name,
       average,
-      passed: includeAverage ? average > 9.45 ? 'Yes' : 'No' : undefined,
+      passed,
       message: `Student ${formattedName} (ID: ${id}) has an average of ${average ?? 'N/A'}`
     });
   }

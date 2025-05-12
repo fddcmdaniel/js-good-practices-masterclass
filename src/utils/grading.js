@@ -31,3 +31,20 @@ export function calculateAverage(scores, hasExtraCredit = false) {
 
   return average.toFixed(2);
 }
+
+const MINIMUM_PASSING_AVERAGE = 9.45;
+
+/**
+ * Determine if a student has passed based on their average score.
+ *
+ * @param {number} average — The student’s average score (between 0 and 20).
+ * @returns {'Yes' | 'No'} — Returns `'Yes'` if the average is above the passing threshold.
+ * Otherwise `'No'`.
+ */
+export function determinePassStatus(average) {
+  if (average > MINIMUM_PASSING_AVERAGE) {
+    return 'Yes';
+  }
+
+  return 'No';
+}
