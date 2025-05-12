@@ -1,0 +1,30 @@
+{
+  "env": {
+    "es2021": true,
+    "node": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2021,
+    "sourceType": "module"
+  },
+  "extends": ["airbnb-base"],
+  "rules": {
+    "import/prefer-default-export": "off",
+    "max-len": "off",
+    "no-plusplus": "off",
+    "no-var": "error",
+    "vars-on-top": "off",
+    "prefer-const": [
+        "error",
+        {
+            "destructuring": "all",
+            "ignoreReadBeforeAssign": false
+        }
+    ],
+    "semi": ["error", "always"],
+    "comma-dangle": ["error", "never"],
+    "no-console": ["error", { "allow": ["warn", "error", "info", "table"] }],
+    "indent": ["error", 2],
+    "space-before-blocks": ["error", "always"]
+  }
+}

@@ -5,7 +5,7 @@ export async function submitStudentReports(students) {
     const reports = generateStudentReport(students);
     const response = await fetch('/api/reports', {
       method: 'POST',
-      body: JSON.stringify(reports),
+      body: JSON.stringify(reports)
     });
     displayStudentsReports(response);
   } catch (error) {
