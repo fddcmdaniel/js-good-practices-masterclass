@@ -48,7 +48,9 @@ export function generateStudentReport(studentsList, { includeAverage = true } = 
       average = undefined;
     }
 
-    const formattedName = name.trim();
+    const nameWithNoPipes = name.replace(/\|/g, '');
+    const [firstName, ...rest] = nameWithNoPipes.split('_');
+    const formattedName = (firstName + ' ' + rest.at(-1)).trim();
 
     reportList.push({
       id,
