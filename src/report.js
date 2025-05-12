@@ -14,13 +14,13 @@ export function generateStudentReport(studentsList, { includeAverage = true } = 
 
   const reportList = [];
 
-  for (var i = 0; i < studentsList.length; i++) {
-    var { id, name, scores } = studentsList[i];
-    var average = 0;
+  for (let i = 0; i < studentsList.length; i++) {
+    const { id, name, scores } = studentsList[i];
+    let average = 0;
 
     if (includeAverage) {
-      for (var i = 0; i < scores.length; i++) {
-        average += scores[i];
+      for (let j = 0; j < scores.length; j++) {
+        average += scores[j];
       }
 
       average /= scores.length;
@@ -28,14 +28,14 @@ export function generateStudentReport(studentsList, { includeAverage = true } = 
       average = undefined;
     }
 
-    var formattedName = name.trim();
+    const formattedName = name.trim();
 
     reportList.push({
       id,
       name: formattedName,
       average,
       passed: average > 9.45 ? 'Yes' : 'No',
-      message: `Student ${formattedName} (ID: ${id}) has an average of ${average?.toFixed(2) ?? 'N/A'}`,
+      message: `Student ${formattedName} (ID: ${id}) has an average of ${average?.toFixed(2) ?? 'N/A'}`
     });
   }
 
