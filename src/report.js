@@ -1,4 +1,5 @@
 import { calculateAverage } from './utils/average.js';
+import { sanitizeName } from './utils/names.js';
 
 /**
  * Generate detailed report objects for each student in the list.
@@ -17,17 +18,14 @@ export function generateStudentReport(studentsList, { includeAverage = true } = 
   const reportList = [];
 
   for (let i = 0; i < studentsList.length; i++) {
-    const { id, name, scores, hasExtraCredit } = studentsList[i];
+    const { id, name: rawName, scores, hasExtraCredit } = studentsList[i];
 
+    const name = sanitizeName(rawName);
     const average = includeAverage ? calculateAverage(scores, hasExtraCredit) : undefined;
-
-    const nameWithNoPipes = name.replace(/\|/g, '');
-    const [firstName, ...rest] = nameWithNoPipes.split('_');
-    const formattedName = (firstName + ' ' + rest.at(-1)).trim();
 
     reportList.push({
       id,
-      name: formattedName,
+      name,
       average,
       passed: includeAverage ? average > 9.45 ? 'Yes' : 'No' : undefined,
       message: `Student ${formattedName} (ID: ${id}) has an average of ${average ?? 'N/A'}`
