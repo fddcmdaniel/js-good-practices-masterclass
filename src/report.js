@@ -1,3 +1,5 @@
+import { calculateAverage } from './utils/average.js';
+
 /**
  * Generate detailed report objects for each student in the list.
  * Including their ID, name, optional average score, pass status and a summary message.
@@ -16,37 +18,8 @@ export function generateStudentReport(studentsList, { includeAverage = true } = 
 
   for (let i = 0; i < studentsList.length; i++) {
     const { id, name, scores, hasExtraCredit } = studentsList[i];
-    let average = 0;
-    let totalScores = 0;
 
-    if (includeAverage) {
-      for (let j = 0; j < scores.length; j++) {
-        if(typeof scores[j] !== 'number' || scores[j] < 0 || scores[j] > 20) {
-          continue;
-        }
-
-        totalScores++;
-        average += scores[j];
-      }
-
-      if(totalScores) {
-        average /= totalScores;
-      } else {
-        average = undefined;
-
-        return;
-      }
-
-      if(hasExtraCredit) {
-        average += 1;
-      }
-
-      if(average > 20) {
-        average = 20;
-      }
-    } else {
-      average = undefined;
-    }
+    const average = includeAverage ? calculateAverage(scores, hasExtraCredit) : undefined;
 
     const nameWithNoPipes = name.replace(/\|/g, '');
     const [firstName, ...rest] = nameWithNoPipes.split('_');
@@ -57,7 +30,7 @@ export function generateStudentReport(studentsList, { includeAverage = true } = 
       name: formattedName,
       average,
       passed: includeAverage ? average > 9.45 ? 'Yes' : 'No' : undefined,
-      message: `Student ${formattedName} (ID: ${id}) has an average of ${average?.toFixed(2) ?? 'N/A'}`
+      message: `Student ${formattedName} (ID: ${id}) has an average of ${average ?? 'N/A'}`
     });
   }
 
