@@ -56,7 +56,7 @@ export function generateStudentReport(studentsList, { includeAverage = true } = 
       id,
       name: formattedName,
       average,
-      passed: average > 9.45 ? 'Yes' : 'No',
+      passed: includeAverage ? average > 9.45 ? 'Yes' : 'No' : undefined,
       message: `Student ${formattedName} (ID: ${id}) has an average of ${average?.toFixed(2) ?? 'N/A'}`
     });
   }
