@@ -1,7 +1,10 @@
+import { calculateAverage, determinePassStatus } from './utils/grading.js';
+import { sanitizeName } from './utils/names.js';
+
 /**
  * Generate detailed report objects for each student in the list.
  * Including their ID, name, optional average score, pass status and a summary message.
- * @param {Array<{ id: number, name: string, scores: number[] }>} studentsList
+ * @param {Array<{ id: number, name: string, scores: number[], hasExtraCredit: boolean }>} studentsList
  * @param {{ includeAverage?: boolean }} [options={}]
  * @returns {Array<{ id: number, name: string, average?: number, passed?: string, message?: string }>}
  */
@@ -15,27 +18,18 @@ export function generateStudentReport(studentsList, { includeAverage = true } = 
   const reportList = [];
 
   for (let i = 0; i < studentsList.length; i++) {
-    const { id, name, scores } = studentsList[i];
-    let average = 0;
+    const { id, name: rawName, scores, hasExtraCredit } = studentsList[i];
 
-    if (includeAverage) {
-      for (let j = 0; j < scores.length; j++) {
-        average += scores[j];
-      }
-
-      average /= scores.length;
-    } else {
-      average = undefined;
-    }
-
-    const formattedName = name.trim();
+    const name = sanitizeName(rawName);
+    const average = includeAverage ? calculateAverage(scores, hasExtraCredit) : undefined;
+    const passed = includeAverage ? determinePassStatus(average) : undefined;
 
     reportList.push({
       id,
-      name: formattedName,
+      name,
       average,
-      passed: average > 9.45 ? 'Yes' : 'No',
-      message: `Student ${formattedName} (ID: ${id}) has an average of ${average?.toFixed(2) ?? 'N/A'}`
+      passed,
+      message: `Student ${formattedName} (ID: ${id}) has an average of ${average ?? 'N/A'}`
     });
   }
 

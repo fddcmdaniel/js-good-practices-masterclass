@@ -13,6 +13,13 @@
     "max-len": "off",
     "no-plusplus": "off",
     "no-var": "error",
+    "arrow-parens": [
+      "error",
+      "as-needed",
+      {
+        "requireForBlockBody": true
+      }
+    ],
     "vars-on-top": "off",
     "prefer-const": [
         "error",
