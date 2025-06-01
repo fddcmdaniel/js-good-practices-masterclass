@@ -1,9 +1,9 @@
 /**
  * Generate detailed report objects for each student in the list.
- * Including their ID, name, optional average score, and a summary message.
+ * Including their ID, name, optional average score, pass status and a summary message.
  * @param {Array<{ id: number, name: string, scores: number[] }>} studentsList
  * @param {{ includeAverage?: boolean }} [options={}]
- * @returns {Array<{ id: number, name: string, average?: number, message?: string }>}
+ * @returns {Array<{ id: number, name: string, average?: number, passed?: string, message?: string }>}
  */
 export function generateStudentReport(studentsList, { includeAverage = true } = {}) {
   const isValidList = Array.isArray(studentsList) && studentsList.length > 0;
@@ -14,19 +14,28 @@ export function generateStudentReport(studentsList, { includeAverage = true } = 
 
   const reportList = [];
 
-  for (const student of studentsList) {
-    const { id, name, scores } = student;
+  for (var i = 0; i < studentsList.length; i++) {
+    var { id, name, scores } = studentsList[i];
 
-    const average = includeAverage
-      ? scores.reduce((sum, score) => sum + score, 0) / scores.length
-      : undefined;
+    var average = 0;
 
-    const formattedName = name.trim();
+    if (includeAverage) {
+      for (var i = 0; i < scores.length; i++) {
+        average += scores[i];
+      }
+
+      average /= scores.length;
+    } else {
+      average = undefined;
+    }
+
+    var formattedName = name.trim();
 
     reportList.push({
       id,
       name: formattedName,
       average,
+      passed: includeAverage ? average > 9.45 ? 'Yes' : 'No' : undefined,
       message: `Student ${formattedName} (ID: ${id}) has an average of ${average?.toFixed(2) ?? 'N/A'}`
     });
   }
